@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
-import CustomerList from "./components/CustomerList";
+import CustomerList from "./components/customer/CustomerList";
 import "./App.css";
 
 class App extends Component {
