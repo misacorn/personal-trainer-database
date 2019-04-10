@@ -18,7 +18,32 @@ class CustomerList extends Component {
       .catch(err => console.error(err));
   }
 
-  
+  saveCustomer = customer => {
+    fetch("https://customerrest.herokuapp.com/api/customers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(customer)
+    })
+      .then(res => this.loadCars())
+      .then(res => this.setState({ open: true, message: this.state.message }))
+      .catch(err => console.error(err));
+  };
+
+  updateCar = (link, updatedCustomer) => {
+    fetch(link, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedCustomer)
+    })
+      .then(res => this.loadCars())
+      .then(res => this.setState({ open: true, message: "Customer updated!" }))
+      .catch(err => console.error(err));
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
 
   render() {
     
@@ -58,7 +83,7 @@ class CustomerList extends Component {
         width: 100,
         accessor: "_links.self.href",
         Cell: ({ value, row }) => (
-          <EditCar updateCar={this.updateCar} link={value} car={row} />
+          <EditCustomer updateCar={this.updateCustomer} link={value} customer={row} />
         )
       },
       {
@@ -68,7 +93,7 @@ class CustomerList extends Component {
         width: 100,
         accessor: "_links.self.href",
         Cell: value => (
-          <Button color="secondary" onClick={() => this.deleteCar(value)}>
+          <Button color="secondary" onClick={() => this.deleteCustomer(value)}>
             DELETE
           </Button>
         )
