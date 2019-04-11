@@ -17,7 +17,9 @@ class CustomerList extends Component {
   loadCustomers = () => {
     fetch("https://customerrest.herokuapp.com/api/customers")
       .then(response => response.json())
-      .then(jsondata => this.setState({ customers: jsondata._embedded.cars }))
+      .then(jsondata =>
+        this.setState({ customers: jsondata._embedded.content })
+      )
       .catch(err => console.error(err));
   };
 
@@ -27,18 +29,18 @@ class CustomerList extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(customer)
     })
-      .then(res => this.loadCars())
+      .then(res => this.loadCustomers())
       .then(res => this.setState({ open: true, message: this.state.message }))
       .catch(err => console.error(err));
   };
 
-  updateCar = (link, updatedCustomer) => {
+  updateCustomer = (link, updatedCustomer) => {
     fetch(link, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedCustomer)
     })
-      .then(res => this.loadCars())
+      .then(res => this.loadCustomers())
       .then(res => this.setState({ open: true, message: "Customer updated!" }))
       .catch(err => console.error(err));
   };
@@ -85,7 +87,7 @@ class CustomerList extends Component {
         accessor: "_links.self.href",
         Cell: ({ value, row }) => (
           <EditCustomer
-            updateCar={this.updateCustomer}
+            updateCustomer={this.updateCustomer}
             link={value}
             customer={row}
           />
