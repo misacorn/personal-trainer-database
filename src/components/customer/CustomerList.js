@@ -4,8 +4,11 @@ import "react-table/react-table.css";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 
+import AddCustomer from "./AddCustomer";
+import EditCustomer from "./EditCustomer";
+
 class CustomerList extends Component {
-  state = { customers:[], open: false, message: "New customer added!"  }
+  state = { customers: [], open: false, message: "New customer added!" };
 
   componentDidMount() {
     this.loadCustomers();
@@ -16,7 +19,7 @@ class CustomerList extends Component {
       .then(response => response.json())
       .then(jsondata => this.setState({ customers: jsondata._embedded.cars }))
       .catch(err => console.error(err));
-  }
+  };
 
   saveCustomer = customer => {
     fetch("https://customerrest.herokuapp.com/api/customers", {
@@ -44,9 +47,7 @@ class CustomerList extends Component {
     this.setState({ open: false });
   };
 
-
   render() {
-    
     const columns = [
       {
         Header: "First Name",
@@ -83,7 +84,11 @@ class CustomerList extends Component {
         width: 100,
         accessor: "_links.self.href",
         Cell: ({ value, row }) => (
-          <EditCustomer updateCar={this.updateCustomer} link={value} customer={row} />
+          <EditCustomer
+            updateCar={this.updateCustomer}
+            link={value}
+            customer={row}
+          />
         )
       },
       {
@@ -98,10 +103,28 @@ class CustomerList extends Component {
           </Button>
         )
       }
-    ]
+    ];
 
     return (
-      
+      <div>
+        <AddCustomer saveCustomer={this.saveCustomer} />
+        <ReactTable
+          data={this.state.customers}
+          columns={columns}
+          sortable={true}
+          filterable={true}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left"
+          }}
+          open={this.state.open}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+          message={this.state.message}
+        />
+      </div>
     );
   }
 }
