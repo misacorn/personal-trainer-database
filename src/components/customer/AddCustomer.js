@@ -26,8 +26,8 @@ class AddCustomer extends Component {
     this.setState({ open: false });
   };
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   addNewCustomer = () => {
@@ -52,7 +52,7 @@ class AddCustomer extends Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">New customer</DialogTitle>
+          <DialogTitle id="form-dialog-title">New Customer</DialogTitle>
           <DialogContent>
             <TextField
               onChange={this.handleChange}
