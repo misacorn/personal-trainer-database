@@ -17,9 +17,7 @@ class CustomerList extends Component {
   loadCustomers = () => {
     fetch("https://customerrest.herokuapp.com/api/customers")
       .then(response => response.json())
-      .then(jsondata =>
-        this.setState({ customers: jsondata._embedded.content })
-      )
+      .then(jsondata => this.setState({ customers: jsondata.content }))
       .catch(err => console.error(err));
   };
 
