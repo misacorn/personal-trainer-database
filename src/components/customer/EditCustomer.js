@@ -19,15 +19,24 @@ class EditCustomer extends Component {
   };
 
   handleClickOpen = () => {
+    const {
+      firstname,
+      lastname,
+      streetaddress,
+      postcode,
+      city,
+      email,
+      phone
+    } = this.props.customer;
     this.setState({
       open: true,
-      firstname: this.props.firstname,
-      lastname: this.props.lastname,
-      streetaddress: this.props.streetaddress,
-      postcode: this.props.postcode,
-      city: this.props.city,
-      email: this.props.email,
-      phone: this.props.phone
+      firstname,
+      lastname,
+      streetaddress,
+      postcode,
+      city,
+      email,
+      phone
     });
   };
 
@@ -63,6 +72,16 @@ class EditCustomer extends Component {
   };
 
   render() {
+    const {
+      firstname,
+      lastname,
+      streetaddress,
+      postcode,
+      city,
+      email,
+      phone
+    } = this.props.customer;
+
     return (
       <div>
         <Dialog
@@ -70,9 +89,10 @@ class EditCustomer extends Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">New Customer</DialogTitle>
+          <DialogTitle id="form-dialog-title">Edit Customer</DialogTitle>
           <DialogContent>
             <TextField
+              defaultValue={firstname}
               onChange={this.handleChange}
               autoFocus
               margin="dense"
@@ -81,6 +101,7 @@ class EditCustomer extends Component {
               fullWidth
             />
             <TextField
+              defaultValue={lastname}
               onChange={this.handleChange}
               margin="dense"
               name="lastname"
@@ -88,6 +109,7 @@ class EditCustomer extends Component {
               fullWidth
             />
             <TextField
+              defaultValue={streetaddress}
               onChange={this.handleChange}
               margin="dense"
               name="streetaddress"
@@ -95,6 +117,7 @@ class EditCustomer extends Component {
               fullWidth
             />
             <TextField
+              defaultValue={postcode}
               onChange={this.handleChange}
               margin="dense"
               name="postcode"
@@ -102,6 +125,7 @@ class EditCustomer extends Component {
               fullWidth
             />
             <TextField
+              defaultValue={city}
               onChange={this.handleChange}
               margin="dense"
               name="city"
@@ -109,6 +133,7 @@ class EditCustomer extends Component {
               fullWidth
             />
             <TextField
+              defaultValue={email}
               onChange={this.handleChange}
               margin="dense"
               name="email"
@@ -116,6 +141,7 @@ class EditCustomer extends Component {
               fullWidth
             />
             <TextField
+              defaultValue={phone}
               onChange={this.handleChange}
               margin="dense"
               name="phone"
