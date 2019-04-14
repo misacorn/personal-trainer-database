@@ -44,7 +44,7 @@ class CustomerList extends Component {
   };
 
   deleteCustomer = customerLink => {
-    fetch(customerLink.original._links.self.href, { method: "DELETE" })
+    fetch(customerLink.original.links[0].href, { method: "DELETE" })
       .then(res => this.loadCustomers())
       .then(res => this.setState({ open: true, message: "Customer deleted!" }))
       .catch(err => console.error(err));
@@ -89,7 +89,7 @@ class CustomerList extends Component {
         filterable: false,
         sortable: false,
         width: 100,
-        accessor: "_links.self.href",
+        accessor: "links[0].href",
         Cell: ({ value, row }) => (
           <EditCustomer
             updateCustomer={this.updateCustomer}
@@ -103,7 +103,7 @@ class CustomerList extends Component {
         filterable: false,
         sortable: false,
         width: 100,
-        accessor: "_links.self.href",
+        accessor: "links[0].href",
         Cell: value => (
           <Button color="secondary" onClick={() => this.deleteCustomer(value)}>
             DELETE
