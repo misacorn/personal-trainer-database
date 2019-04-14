@@ -43,6 +43,13 @@ class CustomerList extends Component {
       .catch(err => console.error(err));
   };
 
+  deleteCustomer = customerLink => {
+    fetch(customerLink.original._links.self.href, { method: "DELETE" })
+      .then(res => this.loadCustomers())
+      .then(res => this.setState({ open: true, message: "Customer deleted!" }))
+      .catch(err => console.error(err));
+  };
+
   handleClose = () => {
     this.setState({ open: false });
   };

@@ -58,7 +58,7 @@ class EditCustomer extends Component {
       email,
       phone
     };
-    this.props.updateCar(this.props.link, newCustomer);
+    this.props.updateCustomer(this.props.link, newCustomer);
     this.handleClose();
   };
 
