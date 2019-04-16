@@ -114,7 +114,12 @@ class AddCustomer extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Button onClick={this.handleClickOpen}>ADD CUSTOMER</Button>
+        <Button
+          style={{ margin: "30px", fontSize: "20px" }}
+          onClick={this.handleClickOpen}
+        >
+          ADD CUSTOMER
+        </Button>
       </div>
     );
   }
