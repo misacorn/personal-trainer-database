@@ -1,7 +1,14 @@
+import React from "react";
+
+const dateFormat = value => {
+  return value.slice(0, 10);
+};
+
 export const TRAINING_COLUMNS = [
   {
     Header: "Date",
-    accessor: "date"
+    accessor: "date",
+    Cell: props => <div> {dateFormat(props.value)} </div>
   },
   {
     Header: "Duration",
