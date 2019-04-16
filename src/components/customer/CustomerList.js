@@ -6,14 +6,28 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
-import Training from "../training/Training";
+import { TRAINING_COLUMNS } from "./constants";
 
 class CustomerList extends Component {
-  state = { customers: [], open: false, message: "New customer added!" };
+  state = {
+    customers: [],
+    open: false,
+    message: "New customer added!",
+    showTraining: false,
+    trainings: []
+  };
 
   componentDidMount() {
     this.loadCustomers();
   }
+
+  loadTrainings = link => {
+    this.setState({ showTraining: true });
+    fetch(link)
+      .then(response => response.json())
+      .then(jsondata => this.setState({ trainings: jsondata.content }))
+      .catch(err => console.error(err));
+  };
 
   loadCustomers = () => {
     fetch("https://customerrest.herokuapp.com/api/customers")
@@ -56,7 +70,7 @@ class CustomerList extends Component {
   };
 
   render() {
-    const columns = [
+    const CUSTOMER_COLUMNS = [
       {
         Header: "First Name",
         accessor: "firstname"
@@ -91,7 +105,9 @@ class CustomerList extends Component {
         sortable: false,
         width: 100,
         accessor: "links[2].href",
-        Cell: ({ value, row }) => <Training link={value} trainings={row} />
+        Cell: ({ value, row }) => (
+          <Button onClick={() => this.loadTrainings(value)}>SHOW</Button>
+        )
       },
       {
         Header: " ",
@@ -123,23 +139,36 @@ class CustomerList extends Component {
 
     return (
       <div>
-        <AddCustomer saveCustomer={this.saveCustomer} />
-        <ReactTable
-          data={this.state.customers}
-          columns={columns}
-          sortable={true}
-          filterable={true}
-        />
-        <Snackbar
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "left"
-          }}
-          open={this.state.open}
-          autoHideDuration={3000}
-          onClose={this.handleClose}
-          message={this.state.message}
-        />
+        {this.state.showTraining ? (
+          <>
+            <ReactTable
+              data={this.state.trainings}
+              columns={TRAINING_COLUMNS}
+              sortable={true}
+              filterable={true}
+            />
+          </>
+        ) : (
+          <>
+            <AddCustomer saveCustomer={this.saveCustomer} />
+            <ReactTable
+              data={this.state.customers}
+              columns={CUSTOMER_COLUMNS}
+              sortable={true}
+              filterable={true}
+            />
+            <Snackbar
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left"
+              }}
+              open={this.state.open}
+              autoHideDuration={3000}
+              onClose={this.handleClose}
+              message={this.state.message}
+            />
+          </>
+        )}
       </div>
     );
   }

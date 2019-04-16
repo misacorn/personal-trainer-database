@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 import CustomerList from "./components/customer/CustomerList";
 import "./App.css";
@@ -12,9 +12,7 @@ class App extends Component {
       <div className="App">
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" color="inherit">
-              CUSTOMER LIST
-            </Typography>
+            <Button color="inherit">CUSTOMERS</Button>
           </Toolbar>
         </AppBar>
         <CustomerList />
