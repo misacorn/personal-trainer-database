@@ -6,7 +6,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
-import Training from "../training/Traning";
+import Training from "../training/Training";
 
 class CustomerList extends Component {
   state = { customers: [], open: false, message: "New customer added!" };
@@ -51,8 +51,6 @@ class CustomerList extends Component {
       .catch(err => console.error(err));
   };
 
-  loadTrainings = () => {};
-
   handleClose = () => {
     this.setState({ open: false });
   };
@@ -92,14 +90,8 @@ class CustomerList extends Component {
         filterable: false,
         sortable: false,
         width: 100,
-        accessor: "links[0].href",
-        Cell: ({ value, row }) => (
-          <Training
-            updateCustomer={this.updateCustomer}
-            link={value}
-            customer={row}
-          />
-        )
+        accessor: "links[2].href",
+        Cell: ({ value, row }) => <Training link={value} trainings={row} />
       },
       {
         Header: " ",
