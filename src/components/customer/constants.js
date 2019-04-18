@@ -4,6 +4,10 @@ const dateFormat = value => {
   return value.slice(0, 10);
 };
 
+const durationFormat = value => {
+  return value + " mins";
+};
+
 export const TRAINING_COLUMNS = [
   {
     Header: "Date",
@@ -12,7 +16,8 @@ export const TRAINING_COLUMNS = [
   },
   {
     Header: "Duration",
-    accessor: "duration"
+    accessor: "duration",
+    Cell: props => <div>{durationFormat(props.value)}</div>
   },
   {
     Header: "Activity",

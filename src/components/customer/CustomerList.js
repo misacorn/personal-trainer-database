@@ -3,6 +3,8 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
 
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
@@ -14,20 +16,13 @@ class CustomerList extends Component {
     open: false,
     message: "New customer added!",
     showTraining: false,
+    showAllCustomers: true,
     trainings: []
   };
 
   componentDidMount() {
     this.loadCustomers();
   }
-
-  loadTrainings = link => {
-    this.setState({ showTraining: true });
-    fetch(link)
-      .then(response => response.json())
-      .then(jsondata => this.setState({ trainings: jsondata.content }))
-      .catch(err => console.error(err));
-  };
 
   loadCustomers = () => {
     fetch("https://customerrest.herokuapp.com/api/customers")
@@ -67,6 +62,18 @@ class CustomerList extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  loadTrainings = link => {
+    this.setState({ showTraining: true });
+    fetch(link)
+      .then(response => response.json())
+      .then(jsondata => this.setState({ trainings: jsondata.content }))
+      .catch(err => console.error(err));
+  };
+
+  showCustomerList = () => {
+    this.setState({ showAllCustomers: true, showTraining: false });
   };
 
   render() {
@@ -139,7 +146,14 @@ class CustomerList extends Component {
 
     return (
       <div>
-        {this.state.showTraining ? (
+        <AppBar position="static">
+          <Toolbar>
+            <Button onClick={this.showCustomerList} color="inherit">
+              CUSTOMERS
+            </Button>
+          </Toolbar>
+        </AppBar>
+        {this.state.showTraining && (
           <>
             <ReactTable
               data={this.state.trainings}
@@ -148,7 +162,8 @@ class CustomerList extends Component {
               filterable={true}
             />
           </>
-        ) : (
+        )}
+        {this.state.showAllCustomers && (
           <>
             <AddCustomer saveCustomer={this.saveCustomer} />
             <ReactTable
@@ -168,6 +183,7 @@ class CustomerList extends Component {
               message={this.state.message}
             />
           </>
+        )}
         )}
       </div>
     );
