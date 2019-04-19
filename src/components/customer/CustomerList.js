@@ -8,6 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
+import AddTraining from "./AddTraining";
 import { TRAINING_COLUMNS } from "./constants";
 
 class CustomerList extends Component {
@@ -65,15 +66,27 @@ class CustomerList extends Component {
   };
 
   loadTrainings = link => {
-    this.setState({ showTraining: true });
+    this.setState({ showTraining: true, showAllCustomers: false });
     fetch(link)
       .then(response => response.json())
       .then(jsondata => this.setState({ trainings: jsondata.content }))
       .catch(err => console.error(err));
+    // console.log(link)
   };
 
   showCustomerList = () => {
     this.setState({ showAllCustomers: true, showTraining: false });
+  };
+
+  saveTraining = (training, link) => {
+    fetch(link, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(training)
+    })
+      .then(res => this.loadTrainings())
+      .then(res => this.setState({ open: true, message: "Training added!" }))
+      .catch(err => console.error(err));
   };
 
   render() {
@@ -155,6 +168,7 @@ class CustomerList extends Component {
         </AppBar>
         {this.state.showTraining && (
           <>
+            <AddTraining saveTraining={this.saveTraining} />
             <ReactTable
               data={this.state.trainings}
               columns={TRAINING_COLUMNS}
