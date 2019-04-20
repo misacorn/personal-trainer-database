@@ -9,7 +9,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 import AddTraining from "./AddTraining";
-import { TRAINING_COLUMNS } from "./constants";
 
 class CustomerList extends Component {
   state = {
@@ -158,6 +157,43 @@ class CustomerList extends Component {
         accessor: "links[0].href",
         Cell: value => (
           <Button color="secondary" onClick={() => this.deleteCustomer(value)}>
+            DELETE
+          </Button>
+        )
+      }
+    ];
+
+    const dateFormat = value => {
+      return value.slice(0, 10);
+    };
+
+    const durationFormat = value => {
+      return value + " mins";
+    };
+
+    const TRAINING_COLUMNS = [
+      {
+        Header: "Date",
+        accessor: "date",
+        Cell: props => <div> {dateFormat(props.value)} </div>
+      },
+      {
+        Header: "Duration",
+        accessor: "duration",
+        Cell: props => <div>{durationFormat(props.value)}</div>
+      },
+      {
+        Header: "Activity",
+        accessor: "activity"
+      },
+      {
+        Header: " ",
+        filterable: false,
+        sortable: false,
+        width: 100,
+        accessor: "links[2].href",
+        Cell: value => (
+          <Button color="secondary" onClick={() => this.deleteTraining(value)}>
             DELETE
           </Button>
         )
