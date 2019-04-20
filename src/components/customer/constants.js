@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 
 const dateFormat = value => {
   return value.slice(0, 10);
@@ -22,17 +23,17 @@ export const TRAINING_COLUMNS = [
   {
     Header: "Activity",
     accessor: "activity"
+  },
+  {
+    Header: " ",
+    filterable: false,
+    sortable: false,
+    width: 100,
+    accessor: "links[2].href",
+    Cell: value => (
+      <Button color="secondary" onClick={() => this.deleteTraining(value)}>
+        DELETE
+      </Button>
+    )
   }
-  // {
-  //   Header: " ",
-  //   filterable: false,
-  //   sortable: false,
-  //   width: 100,
-  //   accessor: "links[0].href",
-  //   Cell: value => (
-  //     <Button color="secondary" onClick={() => this.deleteTraining(value)}>
-  //       DELETE
-  //     </Button>
-  //   )
-  // }
 ];

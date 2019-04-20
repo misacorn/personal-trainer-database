@@ -89,6 +89,13 @@ class CustomerList extends Component {
       .catch(err => console.error(err));
   };
 
+  deleteTraining = customerLink => {
+    fetch(customerLink.original.links[2].href, { method: "DELETE" })
+      .then(res => this.loadTrainings(this.state.link))
+      .then(res => this.setState({ open: true, message: "Training deleted!" }))
+      .catch(err => console.error(err));
+  };
+
   render() {
     const CUSTOMER_COLUMNS = [
       {
