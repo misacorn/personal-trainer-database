@@ -23,12 +23,18 @@ class AddTraining extends Component {
 
   addNewTraining = () => {
     const { date, duration, activity } = this.state;
+    const { link, saveTraining } = this.props;
+    const parts = link.split("/");
+    parts.pop();
+    const customer = parts.join("/");
     const newTraining = {
       date,
       duration,
-      activity
+      activity,
+      customer
     };
-    this.props.saveTraining(newTraining);
+
+    saveTraining(newTraining);
     this.handleClose();
   };
 
@@ -60,8 +66,8 @@ class AddTraining extends Component {
             <TextField
               onChange={this.handleChange}
               margin="dense"
-              name="Activity"
-              label="activity"
+              name="activity"
+              label="Activity"
               fullWidth
             />
           </DialogContent>

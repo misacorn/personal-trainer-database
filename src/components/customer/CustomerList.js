@@ -18,7 +18,8 @@ class CustomerList extends Component {
     message: "New customer added!",
     showTraining: false,
     showAllCustomers: true,
-    trainings: []
+    trainings: [],
+    link: ""
   };
 
   componentDidMount() {
@@ -69,22 +70,21 @@ class CustomerList extends Component {
     this.setState({ showTraining: true, showAllCustomers: false });
     fetch(link)
       .then(response => response.json())
-      .then(jsondata => this.setState({ trainings: jsondata.content }))
+      .then(jsondata => this.setState({ trainings: jsondata.content, link }))
       .catch(err => console.error(err));
-    // console.log(link)
   };
 
   showCustomerList = () => {
     this.setState({ showAllCustomers: true, showTraining: false });
   };
 
-  saveTraining = (training, link) => {
-    fetch(link, {
+  saveTraining = training => {
+    fetch("https://customerrest.herokuapp.com/api/trainings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(training)
     })
-      .then(res => this.loadTrainings())
+      .then(res => this.loadTrainings(this.state.link))
       .then(res => this.setState({ open: true, message: "Training added!" }))
       .catch(err => console.error(err));
   };
@@ -168,7 +168,10 @@ class CustomerList extends Component {
         </AppBar>
         {this.state.showTraining && (
           <>
-            <AddTraining saveTraining={this.saveTraining} />
+            <AddTraining
+              link={this.state.link}
+              saveTraining={this.saveTraining}
+            />
             <ReactTable
               data={this.state.trainings}
               columns={TRAINING_COLUMNS}
