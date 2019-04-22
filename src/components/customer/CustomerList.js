@@ -9,6 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 import TrainingList from "../training/TrainingList";
+import AllTrainings from "../training/AllTrainings";
 
 class CustomerList extends Component {
   state = {
@@ -17,6 +18,7 @@ class CustomerList extends Component {
     message: "New customer added!",
     showTraining: false,
     showAllCustomers: true,
+    showAllTrainings: false,
     trainings: [],
     link: ""
   };
@@ -66,7 +68,11 @@ class CustomerList extends Component {
   };
 
   loadTrainings = link => {
-    this.setState({ showTraining: true, showAllCustomers: false });
+    this.setState({
+      showTraining: true,
+      showAllCustomers: false,
+      showAllTrainings: false
+    });
     fetch(link)
       .then(response => response.json())
       .then(jsondata => this.setState({ trainings: jsondata.content, link }))
@@ -74,7 +80,19 @@ class CustomerList extends Component {
   };
 
   showCustomerList = () => {
-    this.setState({ showAllCustomers: true, showTraining: false });
+    this.setState({
+      showAllCustomers: true,
+      showTraining: false,
+      showAllTrainings: false
+    });
+  };
+
+  showAllTrainings = () => {
+    this.setState({
+      showAllCustomers: false,
+      showTrainings: false,
+      showAllTrainings: true
+    });
   };
 
   render() {
@@ -147,6 +165,7 @@ class CustomerList extends Component {
 
     const {
       showTraining,
+      showAllTrainings,
       link,
       trainings,
       customers,
@@ -166,20 +185,19 @@ class CustomerList extends Component {
             >
               CUSTOMERS
             </Button>
-            <Button onClick={console.log("hello")} color="inherit">
+            <Button onClick={this.showAllTrainings} color="inherit">
               ALL TRAININGS
             </Button>
           </Toolbar>
         </AppBar>
-        {showTraining && <TrainingList link={link} trainings={trainings} />}
         {showAllCustomers && (
           <>
             <AddCustomer saveCustomer={this.saveCustomer} />
             <ReactTable
               data={customers}
               columns={CUSTOMER_COLUMNS}
-              sortable={true}
-              filterable={true}
+              sortable
+              filterable
             />
             <Snackbar
               anchorOrigin={{
@@ -193,6 +211,8 @@ class CustomerList extends Component {
             />
           </>
         )}
+        {showAllTrainings && <AllTrainings />}
+        {showTraining && <TrainingList link={link} trainings={trainings} />}
         )}
       </>
     );
