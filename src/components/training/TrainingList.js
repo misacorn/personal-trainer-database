@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
 
 import AddTraining from "./AddTraining";
 
@@ -41,6 +42,7 @@ class TrainingList extends Component {
   };
 
   render() {
+    const { message, open } = this.state;
     const { link, trainings } = this.props;
 
     const dateFormat = value => {
@@ -87,6 +89,16 @@ class TrainingList extends Component {
           columns={TRAINING_COLUMNS}
           sortable
           filterable
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left"
+          }}
+          open={open}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+          message={message}
         />
       </>
     );
