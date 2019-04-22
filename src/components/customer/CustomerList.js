@@ -159,8 +159,15 @@ class CustomerList extends Component {
       <>
         <AppBar position="static">
           <Toolbar>
-            <Button onClick={this.showCustomerList} color="inherit">
+            <Button
+              onClick={this.showCustomerList}
+              color="inherit"
+              style={{ marginRight: "20px" }}
+            >
               CUSTOMERS
+            </Button>
+            <Button onClick={console.log("hello")} color="inherit">
+              ALL TRAININGS
             </Button>
           </Toolbar>
         </AppBar>
