@@ -8,7 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
-import AddTraining from "./AddTraining";
+import TrainingList from "../training/TrainingList";
 
 class CustomerList extends Component {
   state = {
@@ -75,24 +75,6 @@ class CustomerList extends Component {
 
   showCustomerList = () => {
     this.setState({ showAllCustomers: true, showTraining: false });
-  };
-
-  saveTraining = training => {
-    fetch("https://customerrest.herokuapp.com/api/trainings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(training)
-    })
-      .then(res => this.loadTrainings(this.state.link))
-      .then(res => this.setState({ open: true, message: "Training added!" }))
-      .catch(err => console.error(err));
-  };
-
-  deleteTraining = customerLink => {
-    fetch(customerLink.original.links[2].href, { method: "DELETE" })
-      .then(res => this.loadTrainings(this.state.link))
-      .then(res => this.setState({ open: true, message: "Training deleted!" }))
-      .catch(err => console.error(err));
   };
 
   render() {
@@ -163,45 +145,18 @@ class CustomerList extends Component {
       }
     ];
 
-    const dateFormat = value => {
-      return value.slice(0, 10);
-    };
-
-    const durationFormat = value => {
-      return value + " mins";
-    };
-
-    const TRAINING_COLUMNS = [
-      {
-        Header: "Date",
-        accessor: "date",
-        Cell: props => <div> {dateFormat(props.value)} </div>
-      },
-      {
-        Header: "Duration",
-        accessor: "duration",
-        Cell: props => <div>{durationFormat(props.value)}</div>
-      },
-      {
-        Header: "Activity",
-        accessor: "activity"
-      },
-      {
-        Header: " ",
-        filterable: false,
-        sortable: false,
-        width: 100,
-        accessor: "links[2].href",
-        Cell: value => (
-          <Button color="secondary" onClick={() => this.deleteTraining(value)}>
-            DELETE
-          </Button>
-        )
-      }
-    ];
+    const {
+      showTraining,
+      link,
+      trainings,
+      customers,
+      open,
+      message,
+      showAllCustomers
+    } = this.state;
 
     return (
-      <div>
+      <>
         <AppBar position="static">
           <Toolbar>
             <Button onClick={this.showCustomerList} color="inherit">
@@ -209,25 +164,12 @@ class CustomerList extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        {this.state.showTraining && (
-          <>
-            <AddTraining
-              link={this.state.link}
-              saveTraining={this.saveTraining}
-            />
-            <ReactTable
-              data={this.state.trainings}
-              columns={TRAINING_COLUMNS}
-              sortable={true}
-              filterable={true}
-            />
-          </>
-        )}
-        {this.state.showAllCustomers && (
+        {showTraining && <TrainingList link={link} trainings={trainings} />}
+        {showAllCustomers && (
           <>
             <AddCustomer saveCustomer={this.saveCustomer} />
             <ReactTable
-              data={this.state.customers}
+              data={customers}
               columns={CUSTOMER_COLUMNS}
               sortable={true}
               filterable={true}
@@ -237,15 +179,15 @@ class CustomerList extends Component {
                 vertical: "top",
                 horizontal: "left"
               }}
-              open={this.state.open}
+              open={open}
               autoHideDuration={3000}
               onClose={this.handleClose}
-              message={this.state.message}
+              message={message}
             />
           </>
         )}
         )}
-      </div>
+      </>
     );
   }
 }

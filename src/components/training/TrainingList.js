@@ -1,0 +1,96 @@
+import React, { Component } from "react";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+import Button from "@material-ui/core/Button";
+
+import AddTraining from "./AddTraining";
+
+class TrainingList extends Component {
+  state = { open: false, trainings: [], message: "" };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  loadTrainings = link => {
+    this.setState({ showTraining: true, showAllCustomers: false });
+    fetch(link)
+      .then(response => response.json())
+      .then(jsondata => this.setState({ trainings: jsondata.content }))
+      .catch(err => console.error(err));
+  };
+
+  saveTraining = training => {
+    const { link } = this.props;
+    fetch("https://customerrest.herokuapp.com/api/trainings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(training)
+    })
+      .then(res => this.loadTrainings(link))
+      .then(res => this.setState({ open: true, message: "Training added!" }))
+      .catch(err => console.error(err));
+  };
+
+  deleteTraining = customerLink => {
+    const { link } = this.props;
+    fetch(customerLink.original.links[2].href, { method: "DELETE" })
+      .then(res => this.loadTrainings(link))
+      .then(res => this.setState({ open: true, message: "Training deleted!" }))
+      .catch(err => console.error(err));
+  };
+
+  render() {
+    const { link, trainings } = this.props;
+
+    const dateFormat = value => {
+      return value.slice(0, 10);
+    };
+
+    const durationFormat = value => {
+      return value + " mins";
+    };
+
+    const TRAINING_COLUMNS = [
+      {
+        Header: "Date",
+        accessor: "date",
+        Cell: props => <div> {dateFormat(props.value)} </div>
+      },
+      {
+        Header: "Duration",
+        accessor: "duration",
+        Cell: props => <div>{durationFormat(props.value)}</div>
+      },
+      {
+        Header: "Activity",
+        accessor: "activity"
+      },
+      {
+        Header: " ",
+        filterable: false,
+        sortable: false,
+        width: 100,
+        accessor: "links[2].href",
+        Cell: value => (
+          <Button color="secondary" onClick={() => this.deleteTraining(value)}>
+            DELETE
+          </Button>
+        )
+      }
+    ];
+    return (
+      <>
+        <AddTraining link={link} saveTraining={this.saveTraining} />
+        <ReactTable
+          data={trainings}
+          columns={TRAINING_COLUMNS}
+          sortable
+          filterable
+        />
+      </>
+    );
+  }
+}
+
+export default TrainingList;
