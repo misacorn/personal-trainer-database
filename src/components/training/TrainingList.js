@@ -46,11 +46,11 @@ class TrainingList extends Component {
     const { link, trainings } = this.props;
 
     const dateFormat = value => {
-      return value.slice(0, 10);
+      return value ? value.slice(0, 10) : value;
     };
 
     const durationFormat = value => {
-      return value + " mins";
+      return value ? value + " mins" : value;
     };
 
     const TRAINING_COLUMNS = [

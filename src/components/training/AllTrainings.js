@@ -19,6 +19,11 @@ class AllTrainings extends Component {
   render() {
     const { allTrainings } = this.state;
 
+    const dateFormat = value => {
+      const date = new Date(value);
+      return date.slice(0, 10);
+    };
+
     const durationFormat = value => {
       return value + " mins";
     };
@@ -26,7 +31,8 @@ class AllTrainings extends Component {
     const ALL_TRAININGS_COLUMNS = [
       {
         Header: "Date",
-        accessor: "date"
+        accessor: "date",
+        // Cell: props => <div> {dateFormat(props.value)} </div>
       },
       {
         Header: "Duration",
