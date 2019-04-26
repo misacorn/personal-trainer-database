@@ -21,7 +21,9 @@ class AllTrainings extends Component {
 
     const dateFormat = value => {
       const date = new Date(value);
-      return date.slice(0, 10);
+      return (
+        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+      );
     };
 
     const durationFormat = value => {
@@ -32,7 +34,7 @@ class AllTrainings extends Component {
       {
         Header: "Date",
         accessor: "date",
-        // Cell: props => <div> {dateFormat(props.value)} </div>
+        Cell: props => <div> {dateFormat(props.value)} </div>
       },
       {
         Header: "Duration",
