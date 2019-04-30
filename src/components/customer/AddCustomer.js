@@ -46,7 +46,7 @@ class AddCustomer extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -120,7 +120,7 @@ class AddCustomer extends Component {
         >
           ADD CUSTOMER
         </Button>
-      </div>
+      </>
     );
   }
 }

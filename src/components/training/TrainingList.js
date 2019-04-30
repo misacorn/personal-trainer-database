@@ -57,12 +57,12 @@ class TrainingList extends Component {
       {
         Header: "Date",
         accessor: "date",
-        Cell: props => <div> {dateFormat(props.value)} </div>
+        Cell: props => <> {dateFormat(props.value)} </>
       },
       {
         Header: "Duration",
         accessor: "duration",
-        Cell: props => <div>{durationFormat(props.value)}</div>
+        Cell: props => <>{durationFormat(props.value)}</>
       },
       {
         Header: "Activity",

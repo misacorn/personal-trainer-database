@@ -83,7 +83,7 @@ class EditCustomer extends Component {
     } = this.props.customer;
 
     return (
-      <div>
+      <>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -159,7 +159,7 @@ class EditCustomer extends Component {
           </DialogActions>
         </Dialog>
         <Button onClick={this.handleClickOpen}>EDIT</Button>
-      </div>
+      </>
     );
   }
 }

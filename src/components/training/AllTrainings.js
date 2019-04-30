@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import Button from "@material-ui/core/Button";
 
 class AllTrainings extends Component {
   state = { allTrainings: [] };
@@ -35,59 +36,52 @@ class AllTrainings extends Component {
       {
         Header: "Date",
         accessor: "date",
-        Cell: props => <div> {dateFormat(props.value)} </div>
+        Cell: props => <> {dateFormat(props.value)} </>
       },
       {
         Header: "Duration",
         accessor: "duration",
-        Cell: props => <div>{durationFormat(props.value)}</div>
+        Cell: props => <>{durationFormat(props.value)}</>
       },
       {
         Header: "Activity",
         accessor: "activity"
       },
-
-      // {
-      //   id: 'friendName', // Required because our accessor is not a string
-      //   Header: 'Friend Name',
-      //   accessor: d => d.friend.name // Custom value accessors!
-      // }, {
-      //   Header: props => <span>Friend Age</span>, // Custom header components!
-      //   accessor: 'friend.age'
-      // }
-
       {
         id: "firstname",
         Header: "First Name",
         accessor: d => d.customer.firstname
       },
       {
-        Header: props => <div>Last Name</div>,
+        Header: props => <>Last Name</>,
         accessor: "customer.lastname"
       },
       {
-        Header: props => <div>Street Address</div>,
+        Header: props => <>Street Address</>,
         accessor: "customer.streetaddress"
       },
       {
-        Header: props => <div>Post Code</div>,
+        Header: props => <>Post Code</>,
         accessor: "customer.postcode"
       },
       {
-        Header: props => <div>City</div>,
+        Header: props => <>City</>,
         accessor: "customer.city"
       },
       {
-        Header: props => <div>Email</div>,
+        Header: props => <>Email</>,
         accessor: "customer.email"
       },
       {
-        Header: props => <div>Phone</div>,
+        Header: props => <>Phone</>,
         accessor: "customer.phone"
       }
     ];
     return (
       <>
+        <Button style={{ margin: "30px", fontSize: "20px" }}>
+          ALL TRAININGS
+        </Button>
         <ReactTable
           data={allTrainings}
           columns={ALL_TRAININGS_COLUMNS}

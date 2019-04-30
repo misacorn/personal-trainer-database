@@ -40,7 +40,7 @@ class AddTraining extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -86,7 +86,7 @@ class AddTraining extends Component {
         >
           ADD TRAINING
         </Button>
-      </div>
+      </>
     );
   }
 }
