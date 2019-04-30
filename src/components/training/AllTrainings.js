@@ -14,6 +14,7 @@ class AllTrainings extends Component {
       .then(response => response.json())
       .then(jsondata => this.setState({ allTrainings: jsondata }))
       .catch(err => console.error(err));
+    console.log(this.state.allTrainings);
   };
 
   render() {
@@ -45,33 +46,44 @@ class AllTrainings extends Component {
         Header: "Activity",
         accessor: "activity"
       },
+
+      // {
+      //   id: 'friendName', // Required because our accessor is not a string
+      //   Header: 'Friend Name',
+      //   accessor: d => d.friend.name // Custom value accessors!
+      // }, {
+      //   Header: props => <span>Friend Age</span>, // Custom header components!
+      //   accessor: 'friend.age'
+      // }
+
       {
+        id: "firstname",
         Header: "First Name",
-        accessor: "firstname"
+        accessor: d => d.customer.firstname
       },
       {
-        Header: "Last Name",
-        accessor: "lastname"
+        Header: props => <div>Last Name</div>,
+        accessor: "customer.lastname"
       },
       {
-        Header: "Street Address",
-        accessor: "streetaddress"
+        Header: props => <div>Street Address</div>,
+        accessor: "customer.streetaddress"
       },
       {
-        Header: "Post Code",
-        accessor: "postcode"
+        Header: props => <div>Post Code</div>,
+        accessor: "customer.postcode"
       },
       {
-        Header: "City",
-        accessor: "city"
+        Header: props => <div>City</div>,
+        accessor: "customer.city"
       },
       {
-        Header: "Email",
-        accessor: "email"
+        Header: props => <div>Email</div>,
+        accessor: "customer.email"
       },
       {
-        Header: "Phone",
-        accessor: "phone"
+        Header: props => <div>Phone</div>,
+        accessor: "customer.phone"
       }
     ];
     return (
